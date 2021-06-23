@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
 	Row,
 	Col,
@@ -23,9 +23,9 @@ import {
 	deleteCategory,
 	udpateCategory,
 } from "./../api/product";
-
+import { Editor } from "@tinymce/tinymce-react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-
+import parse from "html-react-parser";
 const Category = ({ history }) => {
 	const { Option } = Select;
 	const queryClient = useQueryClient();
@@ -110,6 +110,13 @@ const Category = ({ history }) => {
 			},
 		}
 	);
+
+	const editorRef = useRef(null);
+	const updatePolicyHandler = () => {
+		if (editorRef.current) {
+			setState((p) => ({ ...p, description: editorRef.current.getContent() }));
+		}
+	};
 
 	const productAddHandler = () => {
 		//addProduct
@@ -203,18 +210,41 @@ const Category = ({ history }) => {
 										<Input type="file" onChange={handleImageUplaod} />
 									</Form.Item>
 									<Form.Item label="Description">
-										<Input.TextArea
+										<Editor
+											onChange={(e) => {
+												updatePolicyHandler();
+											}}
+											apiKey="yy95othwffaqkpskd5k5aqw8wu3wz0z8b1g526krzi2vh80j"
+											onInit={(evt, editor) => (editorRef.current = editor)}
+											initialValue=""
+											init={{
+												height: 300,
+												menubar: false,
+												plugins: [
+													"advlist autolink lists link image charmap print preview anchor",
+													"searchreplace visualblocks code fullscreen",
+													"insertdatetime media table paste code help wordcount",
+												],
+												toolbar:
+													"undo redo | formatselect | " +
+													"bold italic backcolor | alignleft aligncenter " +
+													"alignright alignjustify | bullist numlist outdent indent | " +
+													"removeformat | help",
+												content_style:
+													"body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+											}}
+										/>
+										{/* <Input.TextArea
 											onChange={handleInputChange}
 											name="description"
 											value={state.description}
-										/>
+										/> */}
 									</Form.Item>
 									<Form.Item label="Unit">
 										<Input
 											onChange={handleInputChange}
 											name="unit"
 											value={state.unit}
-											type="number"
 										/>
 									</Form.Item>
 									<Form.Item label="Sales Price">
@@ -264,7 +294,7 @@ const Category = ({ history }) => {
 										<Avatar size={100} src={state.image} />
 										<h2>{state.title}</h2>
 										<h3>{state.price ? `৳ ${state.price}` : ""}</h3>
-										<p>{state.description}</p>
+										<p>{parse(state.description)}</p>
 									</div>
 								</Card>
 
@@ -318,51 +348,173 @@ const Category = ({ history }) => {
 			</Row>
 
 			<Card title="Ions">
-				<Row gutter={[5,10]}>
-					<Col xs={6} sm={4} md={3} lg={2}> Accessories </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> FruitsVegetable </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> MeatFish </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Purse </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> HandBags </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> ShoulderBags </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Wallet </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> LaptopBags </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> WomenDress </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> OuterWear </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Pants </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Tops </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Skirts </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Shirts </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Face </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Eyes </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Lips </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Snacks </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> PetCare </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> HomeCleaning </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Dairy </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Cooking </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Breakfast </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Beverage </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> BeautyHealth </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> ShavingNeeds </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> OralCare </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> FacialCare </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Deodorant </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> BathOil </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Minus </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Chair </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Bed </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> BookShelf </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> DressingTable </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> ReadingTable </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Sofa </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> CenterTable </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> RelaxChair </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Storage </Col>
-					<Col xs={6} sm={4} md={3} lg={2}> Tools </Col>
+				<Row gutter={[5, 10]}>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Accessories{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						FruitsVegetable{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						MeatFish{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Purse{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						HandBags{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						ShoulderBags{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Wallet{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						LaptopBags{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						WomenDress{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						OuterWear{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Pants{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Tops{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Skirts{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Shirts{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Face{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Eyes{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Lips{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Snacks{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						PetCare{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						HomeCleaning{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Dairy{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Cooking{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Breakfast{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Beverage{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						BeautyHealth{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						ShavingNeeds{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						OralCare{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						FacialCare{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Deodorant{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						BathOil{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Minus{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Chair{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Bed{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						BookShelf{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						DressingTable{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						ReadingTable{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Sofa{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						CenterTable{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						RelaxChair{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Storage{" "}
+					</Col>
+					<Col xs={6} sm={4} md={3} lg={2}>
+						{" "}
+						Tools{" "}
+					</Col>
 				</Row>
 			</Card>
-
 
 			<Modal
 				title="Category Add"

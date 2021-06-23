@@ -19,6 +19,7 @@ import { utilUpdate, fetchUtil } from "./../api/util";
 import { bannerAdd, fetchBanner, deleteBanner } from "./../api/banner";
 import { deleteFaq, fetchFaq, FaqAdd } from "./../api/faq";
 import { Editor } from "@tinymce/tinymce-react";
+
 const Util = ({ history }) => {
 	const queryclient = useQueryClient();
 	const { data: utilData } = useQuery("utils", fetchUtil);

@@ -5,7 +5,7 @@ const config = {};
 config.__db_connect = async () => {
 	try {
 		const URI =
-			"mongodb+srv://admin:admin@cluster0.elas7.mongodb.net/almonzy?retryWrites=true&w=majority";
+			"mongodb+srv://admin:admin@cluster0.elas7.mongodb.net/demo-bazar?retryWrites=true&w=majority";
 		await mongoose.connect(URI, {
 			useFindAndModify: true,
 			useUnifiedTopology: true,

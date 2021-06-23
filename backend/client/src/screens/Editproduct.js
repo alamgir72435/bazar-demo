@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	Row,
 	Col,
@@ -19,12 +19,13 @@ import {
 	updateProduct,
 	fetchProduct,
 } from "./../api/product";
+import parse from "html-react-parser";
+import { Editor } from "@tinymce/tinymce-react";
 const Category = ({ history }) => {
 	const { Option } = Select;
 	const queryClient = useQueryClient();
 	const { data: categories } = useQuery("categories", fetchCategory);
 	const { data: products } = useQuery("products", fetchProduct);
-
 
 	const [state, setState] = useState({
 		id: "",
@@ -40,6 +41,13 @@ const Category = ({ history }) => {
 	});
 
 	const { id } = useParams();
+
+	const editorRef = useRef(null);
+	const updatePolicyHandler = () => {
+		if (editorRef.current) {
+			setState((p) => ({ ...p, description: editorRef.current.getContent() }));
+		}
+	};
 
 	const loadProduct = (id, products) => {
 		if (id !== undefined && products !== undefined) {
@@ -172,18 +180,42 @@ const Category = ({ history }) => {
 										<Input type="file" onChange={handleImageUplaod} />
 									</Form.Item>
 									<Form.Item label="Description">
-										<Input.TextArea
+										<Editor
+											onBlur={(e) => {
+												updatePolicyHandler();
+											}}
+											apiKey="yy95othwffaqkpskd5k5aqw8wu3wz0z8b1g526krzi2vh80j"
+											onInit={(evt, editor) => (editorRef.current = editor)}
+											initialValue={state.description}
+											init={{
+												height: 300,
+												menubar: false,
+												plugins: [
+													"advlist autolink lists link image charmap print preview anchor",
+													"searchreplace visualblocks code fullscreen",
+													"insertdatetime media table paste code help wordcount",
+												],
+												toolbar:
+													"undo redo | formatselect | " +
+													"bold italic backcolor | alignleft aligncenter " +
+													"alignright alignjustify | bullist numlist outdent indent | " +
+													"removeformat | help",
+												content_style:
+													"body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+											}}
+										/>
+
+										{/* <Input.TextArea
 											onChange={handleInputChange}
 											name="description"
 											value={state.description}
-										/>
+										/> */}
 									</Form.Item>
 									<Form.Item label="Unit">
 										<Input
 											onChange={handleInputChange}
 											name="unit"
 											value={state.unit}
-											type="number"
 										/>
 									</Form.Item>
 									<Form.Item label="Sales Price">
@@ -233,7 +265,7 @@ const Category = ({ history }) => {
 										<Avatar size={100} src={state.image} />
 										<h2>{state.title}</h2>
 										<h3>{state.price ? `৳ ${state.price}` : ""}</h3>
-										<p>{state.description}</p>
+										<p>{parse(state.description)}</p>
 									</div>
 								</Card>
 							</Col>

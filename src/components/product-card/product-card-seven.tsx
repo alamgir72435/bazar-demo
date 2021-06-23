@@ -119,6 +119,7 @@ export const ProductCard = ({ data }: Props) => {
 		slug,
 		discountInPercent,
 		id,
+		unit,
 	} = data;
 	return (
 		<>
@@ -135,7 +136,9 @@ export const ProductCard = ({ data }: Props) => {
 					<Box px={20} pb={20}>
 						<Link href="/products/[slug]" as={`/products/${String(slug)}`}>
 							<PriceWrapper>
-								<Price>৳{salePrice}</Price>
+								<Price style={{ paddingTop: 20 }}>
+									৳{salePrice} / {unit}
+								</Price>
 								{discountInPercent ? (
 									<SalePrice>৳{privousPrice}</SalePrice>
 								) : null}

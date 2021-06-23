@@ -48,13 +48,12 @@ export const REQUEST_MEDICINE_MENU_ITEM = {
 	defaultMessage: "Request Medicine",
 	href: REQUEST_MEDICINE_PAGE,
 };
-export const PROFILE_MENU_ITEM = {
-	id: "nav.profile",
-	defaultMessage: "Profile",
-	href: PROFILE_PAGE,
-};
+// export const PROFILE_MENU_ITEM = {
+// 	id: "nav.profile",
+// 	defaultMessage: "Profile",
+// 	href: PROFILE_PAGE,
+// };
 export const AUTHORIZED_MENU_ITEMS = [
-	PROFILE_MENU_ITEM,
 	{
 		id: "nav.checkout",
 		defaultMessage: "Checkout",
@@ -71,11 +70,11 @@ export const AUTHORIZED_MENU_ITEMS = [
 		href: ORDER_RECEIVED_PAGE,
 		defaultMessage: "Order invoice",
 	},
-	{
-		id: "nav.terms_and_services",
-		defaultMessage: "Terms and Services",
-		href: TERMS_AND_SERVICES_PAGE,
-	},
+	// {
+	// 	id: "nav.terms_and_services",
+	// 	defaultMessage: "Terms and Services",
+	// 	href: TERMS_AND_SERVICES_PAGE,
+	// },
 	{
 		id: "nav.privacy_policy",
 		defaultMessage: "Privacy Policy",
@@ -164,7 +163,7 @@ export const MOBILE_DRAWER_MENU = [
 ];
 
 export const PROFILE_SIDEBAR_TOP_MENU = [ORDER_MENU_ITEM, HELP_MENU_ITEM];
-export const PROFILE_SIDEBAR_BOTTOM_MENU = [PROFILE_MENU_ITEM];
+export const PROFILE_SIDEBAR_BOTTOM_MENU = [];
 
 export const LANGUAGE_MENU = [
 	{
